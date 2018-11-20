@@ -15,9 +15,9 @@
     <div class="bx--grid">
       <div class="bx--row">
         <div class="bx--col-xs-3" v-for="(x,i) in a" :key="i">
-          <nuxt-link :to="''">
+          <nuxt-link :to="''" style="text-decoration:none;">
             <div class="bx--tile">
-              <h4 style="text-decoration:none;color:black">Blog {{x}}</h4>
+              <h4 style="color:#30588c">Blog {{x}}</h4>
               <p style="color:#aaa;font-weight:400">A new Paragraph</p>
             </div>
             <br>
