@@ -16,5 +16,10 @@
   },
   "devDependencies": {
     "cross-env": "^5.0.1"
+  },
+  "config": {
+    "nuxt": {
+      "port": "3001"
+    }
   }
 }
