@@ -15,10 +15,13 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', type: 'text/css', href: '/css/carbon-components.min.css' },
+      { rel: 'stylesheet',  href: '/css/base.css' },
+      { rel: 'stylesheet',  href: '/css/vendor.css' },
+      { rel: 'stylesheet',  href: '/css/main.css' },
     ],
     script: [
-      { type: 'text/javascript', src: '/js/carbon-components.min.js' }
+      { type: 'text/javascript', src: '/js/modernizr.js' },
+      { type: 'text/javascript', src: '/js/pace.min.js' }
     ]
   },
 
@@ -44,7 +47,11 @@ module.exports = {
   */
   modules: [
     // Doc: https://github.com/nuxt-community/axios-module#usage
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    {
+      src: 'nuxt-universal-cookies',
+      options: {}
+    }
   ],
   /*
   ** Axios module configuration
@@ -63,5 +70,8 @@ module.exports = {
     extend(config, ctx) {
       
     }
+  },
+  env:{
+    baseURL: 'http://localhost:5000'
   }
 }

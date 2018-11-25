@@ -1,57 +1,85 @@
 <template>
     <div>
-        <div class="header">
-            <div class="bx--grid">
-                <div class="bx--row">
-                <div class="bx--col-xs-12 " style="padding:2rem 0">
-                    <h1 class="page-title" style="margin:0">Share your experience</h1>
-                </div>
-                </div>
-            </div>
-        </div>
-        <div class="bx--grid">
-            <br>
-            <div class="bx--form-item">
-                <input id="text-input-3" type="text" class="bx--text-input" placeholder="Optional placeholder text">
-                <label for="text-input-3" class="bx--label">Give a proper title</label>
-            </div>
-            <br>
-            <div class="bx--form-item">
-                <textarea id="text-area-2" class="bx--text-area" rows="10" cols="50" placeholder="Placeholder text."></textarea>
-                <label for="text-area-2" class="bx--label">Write your story here</label>
-            </div>
-            <br>
-            <div class="bx--form-item">
-                <strong class="bx--label">Add good photos</strong>
-                <p class="bx--label-description">only .jpg and .png files. 500kb max file size.</p>
-                <div class="bx--file" data-file>
-                    <label
-                    for="your-file-importer-id-here"
-                    class="bx--file-btn bx--btn bx--btn--secondary"
-                    role="button"
-                    tabindex="0">Add files</label>
-                    <input
-                    type="file"
-                    class="bx--file-input"
-                    id="your-file-importer-id-here"
-                    data-file-uploader
-                    data-target="[data-file-container]"
-                    multiple
-                    />
-                    <div data-file-container class="bx--file-container"></div>
-                </div>
-            </div>
-            <br>
-            <div class="bx--form-item">
-                <button class="bx--btn bx--btn--primary" type="button">Submit</button>
-            </div>
-        </div>
+        <section class="s-content s-content--narrow" style="padding-top:0">
+            
+            <div class="row">
+                <br>
+                <h1 class="text-center" style="margin:0">Write your story</h1>
+                <div class="col-full s-content__main">
+                    <div class="row">
+                        <div class="col-twelve tab-full">
+
+                            <form name="cForm" id="cForm" method="post" action="">
+                                <fieldset>
+                                    <div class="form-field">
+                                        <input name="cEmail" type="text" id="cEmail" class="full-width" placeholder="Give an appropriate title" v-model="post.title">
+                                    </div>
+
+                                    <div class="form-field">  
+                                        <label for="content">Write you story here</label>                                      
+                                        <textarea name="content" class="full-width" placeholder="Write your story here" v-model="post.content"></textarea>
+                                    </div>
+
+                                    <!-- <div class="form-field">
+                                        <label for="content">Post photo - Image will be inserted at current cursor position</label> 
+                                        <input type="file" name="" id="" accept="image/*" ref="file" @change="uploadphoto">
+                                    </div> -->
+
+
+                                    <button type="submit" class="submit btn full-width" @click.prevent="save">Save</button>
+                                    <button type="submit" class="submit btn btn--primary full-width" @click.prevent="submit">Final Submit</button>
+
+                                </fieldset>
+                            </form> 
+
+                        </div>
+
+                    </div> <!-- end row -->
+                    <!-- end form -->
+                </div> <!-- end s-content__main -->
+
+            </div> <!-- end row -->
+
+        </section> <!-- s-content -->
 
     </div>
 </template>
 
 <script>
 export default {
+    data(){
+        return {
+            post:{
+                title:'',
+                content:'',
+                status:0,
+                photos:[]
+            }
+        }
+    },
+    methods:{
+        save(){
+            this.$axios.post(process.env.baseURL+"/insertpost",this.post,{
+                headers:{
+                    'x-access-token':this.$cookies.get('auth')
+                }
+            }).then(response=>{
+                alert(response.data)
+            })
+        },
+        submit(){
+            this.status=1
+            this.save()
+        },
+        uploadphoto(){
+            var reader = new FileReader();
+            reader.readAsDataURL(this.$refs.file.files[0])
+            reader.onload=()=>{
+                this.post.photos.push({'name':this.$refs.file.files[0]['name'], 'file':reader.result})
+                this.post.content=this.post.content+"\n:img:"+this.$refs.file.files[0]['name']+"::img:\n"
+            }
+        }
+    }
 
 }
 </script>

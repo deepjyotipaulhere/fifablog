@@ -1,24 +1,48 @@
 <template>
     <div>
-        <div class="header">
-            <div class="bx--grid">
-                <div class="bx--row">
-                    <div class="bx--col-xs-12 " style="padding:2rem 0">
-                        <h1 class="page-title" style="margin:0">Blog {{$route.params.id}}</h1>
-                        <h5 style="color:#5a6872;font-weight:400;margin:0">by </h5>
-                        <h5>
-                            <nuxt-link :to="'/'" style="float:right">&lt; Back to home</nuxt-link>
-                        </h5>
-                    </div>
+        <section class="s-content s-content--narrow s-content--no-padding-bottom">
+
+            <div class="row">
+                <div class="s-content__header col-full">
+                    <h1 class="s-content__header-title">
+                        {{data.title}}
+                    </h1>
+                    <ul class="s-content__header-meta">
+                        <li class="date">December 16, 2017</li>
+                        <li class="cat">
+                            {{data.name}}
+                        </li>
+                    </ul>
                 </div>
-            </div>
-        </div>
+                <div class="col-full s-content__main">
+                    
+                           <pre style="padding:0;font-family:inherit;background-color:transparent">{{data.content}}</pre>
+
+                </div> <!-- end s-content__main -->
+
+            </div> <!-- end row -->
+
+        </section> <!-- s-content -->
     </div>
 </template>
 
 <script>
 export default {
-
+    data(){
+        return {
+            data:{}
+        }
+    },
+    created(){
+        this.load()
+    },
+    methods:{
+        load(){
+            this.$axios.get(process.env.baseURL+"/getblogs/"+this.$route.params.id).then(response=>{
+                this.data=response.data
+            })
+        },
+    }
 }
 </script>
 

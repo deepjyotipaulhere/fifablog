@@ -11,8 +11,10 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@nuxtjs/axios": "^5.0.0",
+    "base-64": "^0.1.0",
     "nuxt": "^1.0.0",
-    "@nuxtjs/axios": "^5.0.0"
+    "nuxt-universal-cookies": "0.0.5"
   },
   "devDependencies": {
     "cross-env": "^5.0.1"
